@@ -4,7 +4,12 @@ import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
 import 'package:dronetag_planner/screens/flight_screen.dart';
 
 class NewDeviceForm extends StatefulWidget {
-  const NewDeviceForm({super.key});
+  const NewDeviceForm({
+    super.key,
+    this.showLabel = false,
+  });
+
+  final bool showLabel;
 
   @override
   State<NewDeviceForm> createState() => _NewDeviceFormState();
@@ -14,6 +19,12 @@ class _NewDeviceFormState extends State<NewDeviceForm> {
   final _formKey = GlobalKey<FormState>();
 
   bool _isLabelShown = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLabelShown = widget.showLabel;
+  }
 
   void _onSubmit() {
     //TODO: Implement NewDeviceForm onSubmit
