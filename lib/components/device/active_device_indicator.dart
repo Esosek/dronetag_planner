@@ -1,3 +1,4 @@
+import 'package:dronetag_planner/screens/device_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -15,11 +16,16 @@ class ActiveDeviceIndicator extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomElevatedButton(
-            label: activeDevice.label ?? activeDevice.uasId,
-            foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            fixWidth: 160,
-            onPressed: () {}),
+          label: activeDevice.label ?? activeDevice.uasId,
+          foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+          fixWidth: 160,
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const DeviceScreen(),
+            ),
+          ),
+        ),
         Text(
           'Tap to switch',
           style: Theme.of(context)
