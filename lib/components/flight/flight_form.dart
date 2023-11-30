@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:dronetag_planner/utility/custom_logger.dart';
 import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
 import 'package:dronetag_planner/components/ui/custom_text_field.dart';
 import 'package:dronetag_planner/components/flight/flight_form_field.dart';
@@ -12,7 +13,26 @@ class FlightForm extends StatefulWidget {
 }
 
 class _FlightFormState extends State<FlightForm> {
+  final log = CustomLogger('FlightForm');
   final _formKey = GlobalKey();
+
+  void _openDatePicker() async {
+    final now = DateTime.now();
+    final pickedDate = await showDatePicker(
+      context: context,
+      initialDate: now,
+      firstDate: now,
+      lastDate: DateTime(now.year + 1),
+    );
+    log.trace('User picked date $pickedDate');
+  }
+
+  void _openTimePicker({required bool isStartDate}) async {
+    final now = TimeOfDay.now();
+    final pickedTime = await showTimePicker(context: context, initialTime: now);
+    log.trace('User picked time $pickedTime');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -30,7 +50,7 @@ class _FlightFormState extends State<FlightForm> {
                 ),
                 const SizedBox(width: 8),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: _openDatePicker,
                   child: const Text('30.11.2023'),
                 ),
               ],
@@ -46,7 +66,7 @@ class _FlightFormState extends State<FlightForm> {
                 ),
                 const SizedBox(width: 8),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => _openTimePicker(isStartDate: true),
                   child: const Text(
                     '16:47',
                   ),
@@ -55,7 +75,7 @@ class _FlightFormState extends State<FlightForm> {
                   ' - ',
                 ),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () => _openTimePicker(isStartDate: false),
                   child: const Text(
                     '17:47',
                   ),

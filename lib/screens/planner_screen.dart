@@ -1,8 +1,8 @@
-import 'package:dronetag_planner/components/flight/flight_form.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/components/device/active_device_indicator.dart';
 import 'package:dronetag_planner/components/screen_wrapper.dart';
+import 'package:dronetag_planner/components/flight/flight_form.dart';
 
 class PlannerScreen extends StatefulWidget {
   const PlannerScreen({super.key});
