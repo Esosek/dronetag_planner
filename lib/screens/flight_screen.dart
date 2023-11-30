@@ -18,10 +18,11 @@ class FlightScreen extends ConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const PlannerScreen(),
-            )),
+          context,
+          MaterialPageRoute(
+            builder: (context) => const PlannerScreen(),
+          ),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView.builder(
