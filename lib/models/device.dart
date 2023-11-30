@@ -1,7 +1,7 @@
 class Device {
   const Device({
     required this.uasId,
-    this.label = '',
+    this.label,
     this.isActive = false,
   });
 
@@ -14,6 +14,6 @@ class Device {
   }
 
   final String uasId;
-  final String label;
+  final String? label;
   final bool isActive;
 }
