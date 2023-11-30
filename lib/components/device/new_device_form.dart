@@ -1,5 +1,7 @@
-import 'package:dronetag_planner/screens/flight_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
+import 'package:dronetag_planner/screens/flight_screen.dart';
 
 class NewDeviceForm extends StatefulWidget {
   const NewDeviceForm({super.key});
@@ -52,14 +54,7 @@ class _NewDeviceFormState extends State<NewDeviceForm> {
               ),
             ),
           if (!isLandscape) const SizedBox(height: 24),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-              minimumSize: const Size(90, 40),
-            ),
-            onPressed: _onSubmit,
-            child: const Text('Submit'),
-          ),
+          CustomElevatedButton(label: 'Submit', onPressed: _onSubmit),
         ],
       ),
     );
