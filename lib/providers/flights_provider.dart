@@ -20,7 +20,7 @@ const _dummyFlights = [
     dateEnd: '2023-11-27T12:33:14Z',
   ),
   Flight(
-    device: Device(uasId: '0000A1234567891', label: 'Serenity'),
+    device: Device(uasId: '0000A1234567891'),
     location: FlightLocation(latitude: 49.190, longitude: 16.550, radius: 20),
     altitudeRange: [0, 15],
     dateStart: '2023-11-28T12:13:14Z',

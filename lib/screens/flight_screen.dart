@@ -1,9 +1,9 @@
-import 'package:dronetag_planner/screens/planner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:dronetag_planner/providers/flights_provider.dart';
 import 'package:dronetag_planner/components/flight/flight_item.dart';
+import 'package:dronetag_planner/screens/planner_screen.dart';
 
 class FlightScreen extends ConsumerWidget {
   const FlightScreen({super.key});
