@@ -12,28 +12,32 @@ class ActiveDeviceIndicator extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final devices = ref.watch(devicesProvider);
     final activeDevice = devices.firstWhere((device) => device.isActive);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        CustomElevatedButton(
-          label: activeDevice.label ?? activeDevice.uasId,
-          foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
-          backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-          fixWidth: 160,
-          onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const DeviceScreen(),
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.centerRight,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CustomElevatedButton(
+            label: activeDevice.label ?? activeDevice.uasId,
+            foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
+            backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+            fixWidth: 160,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const DeviceScreen(),
+              ),
             ),
           ),
-        ),
-        Text(
-          'Tap to switch',
-          style: Theme.of(context)
-              .textTheme
-              .labelSmall!
-              .copyWith(letterSpacing: 1),
-        ),
-      ],
+          Text(
+            'Tap to switch',
+            style: Theme.of(context)
+                .textTheme
+                .labelSmall!
+                .copyWith(letterSpacing: 1),
+          ),
+        ],
+      ),
     );
   }
 }

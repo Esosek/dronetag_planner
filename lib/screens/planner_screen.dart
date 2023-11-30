@@ -1,3 +1,4 @@
+import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/components/device/active_device_indicator.dart';
@@ -15,11 +16,14 @@ class _PlannerScreenState extends State<PlannerScreen> {
   Widget build(BuildContext context) {
     return ScreenWrapper(
       screenTitle: 'Plan your flight',
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          ActiveDeviceIndicator(),
-        ],
+      body: SizedBox(
+        width: double.infinity,
+        child: Column(
+          children: [
+            ActiveDeviceIndicator(),
+            CustomElevatedButton(label: 'Submit', onPressed: () {})
+          ],
+        ),
       ),
     );
   }
