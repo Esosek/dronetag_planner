@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:dronetag_planner/components/device/active_device_indicator.dart';
+import 'package:dronetag_planner/components/screen_wrapper.dart';
+
 class PlannerScreen extends StatefulWidget {
   const PlannerScreen({super.key});
 
@@ -10,6 +13,14 @@ class PlannerScreen extends StatefulWidget {
 class _PlannerScreenState extends State<PlannerScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ScreenWrapper(
+      screenTitle: 'Plan your flight',
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          ActiveDeviceIndicator(),
+        ],
+      ),
+    );
   }
 }
