@@ -1,4 +1,4 @@
-import 'package:dronetag_planner/components/device/active_device_indicator.dart';
+import 'package:dronetag_planner/screens/planner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,23 +20,18 @@ class FlightScreen extends ConsumerWidget {
         ),
         floatingActionButton: FloatingActionButton(
           child: const Icon(Icons.add),
-          // TODO: Implement FAB onPressed in FlightScreen
-          onPressed: () {},
+          onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const PlannerScreen(),
+              )),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              const ActiveDeviceIndicator(),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: flights.length,
-                  itemBuilder: (context, index) => FlightItem(flights[index]),
-                ),
-              ),
-            ],
+          child: ListView.builder(
+            itemCount: flights.length,
+            itemBuilder: (context, index) => FlightItem(flights[index]),
           ),
         ),
       ),
