@@ -39,8 +39,18 @@ class DeviceItem extends ConsumerWidget {
         ],
       ),
       trailing: IconButton(
-        // TODO: When deleting fails, show SnackBar
-        onPressed: () => devicesNotifier.removeDevice(device),
+        onPressed: () {
+          final wasDeviceDeleted = devicesNotifier.removeDevice(device);
+          if (!wasDeviceDeleted) {
+            ScaffoldMessenger.of(context).clearSnackBars();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                duration: Duration(seconds: 5),
+                content: Text('Active device can\'t be removed.'),
+              ),
+            );
+          }
+        },
         icon: const Icon(Icons.delete),
       ),
     );
