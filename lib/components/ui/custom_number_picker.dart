@@ -51,9 +51,9 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
                 Expanded(
                   flex: 1,
                   child: NumberPicker(
-                    minValue: 10,
-                    maxValue: 1000,
-                    step: 10,
+                    minValue: widget.minValue,
+                    maxValue: widget.maxValue,
+                    step: widget.step,
                     value: _value,
                     onChanged: (newValue) {
                       setModalState(() => _value = newValue);
