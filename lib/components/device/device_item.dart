@@ -24,6 +24,7 @@ class DeviceItem extends ConsumerWidget {
             splashRadius: 50,
             value: device,
             groupValue: selectedDevice,
+            // TODO: Switch active device
             onChanged: (value) {},
           ),
           Text(
@@ -35,6 +36,8 @@ class DeviceItem extends ConsumerWidget {
         ],
       ),
       trailing: IconButton(
+        // TODO: Prevent deleting active device
+        // TODO: Remove device
         onPressed: () {},
         icon: const Icon(Icons.delete),
       ),

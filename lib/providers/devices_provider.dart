@@ -10,6 +10,12 @@ const _dummyDevices = [
 
 class DevicesProvider extends StateNotifier<List<Device>> {
   DevicesProvider() : super(_dummyDevices);
+
+  // TODO: Add device
+
+  // TODO: Remove device
+
+  // TODO: Switch device
 }
 
 final devicesProvider = StateNotifierProvider<DevicesProvider, List<Device>>(

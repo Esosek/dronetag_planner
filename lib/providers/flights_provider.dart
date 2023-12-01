@@ -30,6 +30,9 @@ const _dummyFlights = [
 
 class FlightsProvider extends StateNotifier<List<Flight>> {
   FlightsProvider() : super(_dummyFlights);
+
+  // TODO: Send flight to server
+  // TODO: Add flight
 }
 
 final flightsProvider = StateNotifierProvider<FlightsProvider, List<Flight>>(

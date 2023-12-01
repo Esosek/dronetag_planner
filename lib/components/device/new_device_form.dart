@@ -27,7 +27,8 @@ class _NewDeviceFormState extends State<NewDeviceForm> {
   }
 
   void _onSubmit() {
-    //TODO: Implement NewDeviceForm onSubmit
+    // TODO: Implement NewDeviceForm onSubmit
+    // TODO: Validate new device
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => const FlightScreen(),
     ));

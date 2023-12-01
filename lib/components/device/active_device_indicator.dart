@@ -1,9 +1,9 @@
-import 'package:dronetag_planner/screens/device_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:dronetag_planner/providers/devices_provider.dart';
 import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
+import 'package:dronetag_planner/screens/device_screen.dart';
 
 class ActiveDeviceIndicator extends ConsumerWidget {
   const ActiveDeviceIndicator({super.key});
