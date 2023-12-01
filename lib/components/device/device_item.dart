@@ -28,6 +28,7 @@ class DeviceItem extends ConsumerWidget {
             groupValue: selectedDevice,
             onChanged: (value) {
               devicesNotifier.setActiveDevice(device);
+              Navigator.of(context).pop();
             },
           ),
           Text(
