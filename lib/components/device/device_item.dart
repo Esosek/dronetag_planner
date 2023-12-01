@@ -17,6 +17,8 @@ class DeviceItem extends ConsumerWidget {
     final selectedDevice = ref.watch(devicesProvider).firstWhere(
           (device) => device.isActive,
         );
+    final devicesNotifier = ref.watch(devicesProvider.notifier);
+
     return ListTile(
       title: Row(
         children: [
@@ -24,8 +26,9 @@ class DeviceItem extends ConsumerWidget {
             splashRadius: 50,
             value: device,
             groupValue: selectedDevice,
-            // TODO: Switch active device
-            onChanged: (value) {},
+            onChanged: (value) {
+              devicesNotifier.setActiveDevice(device);
+            },
           ),
           Text(
             device.label != null

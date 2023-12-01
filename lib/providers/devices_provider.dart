@@ -1,3 +1,4 @@
+import 'package:dronetag_planner/utility/custom_logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:dronetag_planner/models/device.dart';
@@ -11,11 +12,41 @@ const _dummyDevices = [
 class DevicesProvider extends StateNotifier<List<Device>> {
   DevicesProvider() : super(_dummyDevices);
 
-  // TODO: Add device
+  final log = CustomLogger('DevicesProvider');
 
-  // TODO: Remove device
+  bool addDevice(Device device) {
+    // TODO: Validate device
+    // if (!isUasValid(device.uasId)) {
+    //   return false;
+    // }
+    state = [...state, device];
+    log.trace(
+        'Added new device with UAS ID "${device.uasId}" and label "${device.label}"');
+    return true;
+  }
 
-  // TODO: Switch device
+  bool removeDevice(Device device) {
+    if (device.isActive) {
+      return false;
+    }
+    state = state
+        .where((stateDevice) => stateDevice.uasId != device.uasId)
+        .toList();
+    return true;
+  }
+
+  void setActiveDevice(Device device) {
+    final newState = state.map((stateDevice) {
+      if (stateDevice == device) {
+        log.trace(
+            'Active device set to UAS ID "${device.uasId}" and label "${device.label}"');
+        return stateDevice.setActive(true);
+      }
+      return stateDevice.setActive(false);
+    }).toList();
+
+    state = newState;
+  }
 }
 
 final devicesProvider = StateNotifierProvider<DevicesProvider, List<Device>>(
