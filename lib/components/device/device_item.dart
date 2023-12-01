@@ -39,9 +39,8 @@ class DeviceItem extends ConsumerWidget {
         ],
       ),
       trailing: IconButton(
-        // TODO: Prevent deleting active device
-        // TODO: Remove device
-        onPressed: () {},
+        // TODO: When deleting fails, show SnackBar
+        onPressed: () => devicesNotifier.removeDevice(device),
         icon: const Icon(Icons.delete),
       ),
     );

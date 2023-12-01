@@ -27,11 +27,15 @@ class DevicesProvider extends StateNotifier<List<Device>> {
 
   bool removeDevice(Device device) {
     if (device.isActive) {
+      log.trace(
+          'Device is active, removing failed UAS ID "${device.uasId}" and label "${device.label}"');
       return false;
     }
     state = state
         .where((stateDevice) => stateDevice.uasId != device.uasId)
         .toList();
+    log.trace(
+        'Removed device with UAS ID "${device.uasId}" and label "${device.label}"');
     return true;
   }
 
