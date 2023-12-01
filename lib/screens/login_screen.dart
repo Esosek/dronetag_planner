@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/components/device/new_device_form.dart';
 import 'package:dronetag_planner/components/screen_wrapper.dart';
+import 'package:dronetag_planner/screens/flight_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -24,7 +25,13 @@ class LoginScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           if (!isLandscape) const SizedBox(height: 40),
-          const NewDeviceForm(),
+          NewDeviceForm(
+            onDeviceCreated: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const FlightScreen(),
+              ),
+            ),
+          ),
         ],
       ),
     );

@@ -17,7 +17,10 @@ class DeviceScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            const NewDeviceForm(showLabel: true),
+            NewDeviceForm(
+              showLabel: true,
+              onDeviceCreated: () => Navigator.of(context).pop(),
+            ),
             const SizedBox(height: 4),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
