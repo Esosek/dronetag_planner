@@ -12,6 +12,7 @@ dependencies:
   flutter_riverpod: ^2.4.9
   google_fonts: ^6.1.0
   logger: ^2.0.2+1
+  numberpicker: ^2.1.2
 
 dev_dependencies:
   flutter_test:

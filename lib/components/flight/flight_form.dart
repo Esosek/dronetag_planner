@@ -1,3 +1,4 @@
+import 'package:dronetag_planner/components/ui/custom_number_picker.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
@@ -15,6 +16,8 @@ class FlightForm extends StatefulWidget {
 class _FlightFormState extends State<FlightForm> {
   final log = CustomLogger('FlightForm');
   final _formKey = GlobalKey();
+
+  int _radius = 50;
 
   void _openDatePicker() async {
     final now = DateTime.now();
@@ -111,7 +114,23 @@ class _FlightFormState extends State<FlightForm> {
                   color: Colors.grey.shade600,
                 ),
                 const SizedBox(width: 8),
-                const CustomTextField(hintText: '20'),
+                OutlinedButton(
+                  onPressed: () async {
+                    showModalBottomSheet(
+                      enableDrag: false,
+                      context: context,
+                      builder: (context) => CustomNumberPicker(
+                        minValue: 10,
+                        maxValue: 5000,
+                        step: 10,
+                        initialValue: _radius,
+                        onSaved: (selectedRadius) =>
+                            setState(() => _radius = selectedRadius),
+                      ),
+                    );
+                  },
+                  child: Text(_radius.toString()),
+                ),
                 const SizedBox(width: 4),
                 const Text('meters'),
               ],
