@@ -31,8 +31,13 @@ const _dummyFlights = [
 class FlightsProvider extends StateNotifier<List<Flight>> {
   FlightsProvider() : super(_dummyFlights);
 
-  // TODO: Send flight to server
-  // TODO: Add flight
+  // returns null if successfull
+  // returns error message otherwise
+  Future<String?> addFlight(Flight flight) async {
+    // TODO: Send flight to server
+    state = [...state, flight];
+    return null;
+  }
 }
 
 final flightsProvider = StateNotifierProvider<FlightsProvider, List<Flight>>(

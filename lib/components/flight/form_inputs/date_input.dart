@@ -12,7 +12,7 @@ class DateInput extends StatelessWidget {
 
   final DateTime value;
   final BuildContext context;
-  final Function(DateTime?) onDatePicked;
+  final Function(DateTime) onDatePicked;
 
   void _openDatePicker() async {
     final now = DateTime.now();
@@ -22,7 +22,9 @@ class DateInput extends StatelessWidget {
       firstDate: now,
       lastDate: DateTime(now.year + 1),
     );
-    onDatePicked(pickedDate);
+    if (pickedDate != null) {
+      onDatePicked(pickedDate);
+    }
   }
 
   @override

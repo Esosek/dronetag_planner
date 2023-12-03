@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
 import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
-import 'package:dronetag_planner/components/ui/custom_text_field.dart';
 import 'package:dronetag_planner/components/flight/flight_form_field.dart';
 import 'package:dronetag_planner/components/ui/custom_number_picker.dart';
+import 'package:dronetag_planner/components/flight/form_inputs/date_input.dart';
+import 'package:dronetag_planner/components/flight/form_inputs/time_input.dart';
+import 'package:dronetag_planner/components/flight/form_inputs/origin_input.dart';
 
 class FlightForm extends StatefulWidget {
   const FlightForm({super.key});
@@ -17,26 +19,15 @@ class _FlightFormState extends State<FlightForm> {
   final log = CustomLogger('FlightForm');
   final _formKey = GlobalKey();
 
+  DateTime _date = DateTime.now();
+  TimeOfDay _timeStart = TimeOfDay.now();
+  TimeOfDay _timeEnd =
+      TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute);
+  late int _originLatitude;
+  late int _originLongiude;
   int _radius = 50;
   int _minAltitude = 0;
   int _maxAltitude = 50;
-
-  void _openDatePicker() async {
-    final now = DateTime.now();
-    final pickedDate = await showDatePicker(
-      context: context,
-      initialDate: now,
-      firstDate: now,
-      lastDate: DateTime(now.year + 1),
-    );
-    log.trace('User picked date $pickedDate');
-  }
-
-  void _openTimePicker({required bool isStartDate}) async {
-    final now = TimeOfDay.now();
-    final pickedTime = await showTimePicker(context: context, initialTime: now);
-    log.trace('User picked time $pickedTime');
-  }
 
   void _setMinAltitude(int newMinAltitude) {
     setState(() {
@@ -56,6 +47,18 @@ class _FlightFormState extends State<FlightForm> {
     });
   }
 
+  void _onSubmit() async {
+    if (!_isFormValid()) {
+      return;
+    }
+    // TODO: Implement FlightForm onSubmit
+  }
+
+  bool _isFormValid() {
+    // TODO: Add flight form validation
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -63,68 +66,36 @@ class _FlightFormState extends State<FlightForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          FlightFormField(
-            label: 'Date',
-            content: Row(
-              children: [
-                Icon(
-                  Icons.calendar_month,
-                  color: Colors.grey.shade600,
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: _openDatePicker,
-                  child: const Text('30.11.2023'),
-                ),
-              ],
-            ),
+          DateInput(
+            value: _date,
+            context: context,
+            onDatePicked: (date) {
+              log.trace('User picked date $date');
+              setState(() => _date = date);
+            },
           ),
-          FlightFormField(
-            label: 'Time',
-            content: Row(
-              children: [
-                Icon(
-                  Icons.schedule,
-                  color: Colors.grey.shade600,
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () => _openTimePicker(isStartDate: true),
-                  child: const Text(
-                    '16:47',
-                  ),
-                ),
-                const Text(
-                  ' - ',
-                ),
-                OutlinedButton(
-                  onPressed: () => _openTimePicker(isStartDate: false),
-                  child: const Text(
-                    '17:47',
-                  ),
-                ),
-              ],
-            ),
-          ),
-          FlightFormField(
-            label: 'Origin',
-            content: Row(
-              children: [
-                Icon(
-                  Icons.location_on,
-                  color: Colors.grey.shade600,
-                ),
-                const SizedBox(width: 8),
-                const CustomTextField(
-                  hintText: 'Latitude',
-                ),
-                const Text(' , '),
-                const CustomTextField(
-                  hintText: 'Longitude',
-                ),
-              ],
-            ),
-          ),
+          TimeInput(
+              context: context,
+              timeStart: _timeStart,
+              timeEnd: _timeEnd,
+              onTimePicked: (timeStart, timeEnd) {
+                log.trace(
+                    'User picked startTime $timeStart and endtime $timeEnd');
+                setState(() {
+                  _timeStart = timeStart;
+                  if (timeEnd.hour < timeStart.hour) {
+                    _timeEnd = TimeOfDay(
+                        hour: _timeStart.hour + 1, minute: _timeStart.minute);
+                  } else if (timeEnd.hour == timeStart.hour &&
+                      timeEnd.minute <= timeStart.minute) {
+                    _timeEnd = TimeOfDay(
+                        hour: _timeStart.hour + 1, minute: _timeStart.minute);
+                  } else {
+                    _timeEnd = timeEnd;
+                  }
+                });
+              }),
+          const OriginInput(),
           FlightFormField(
             label: 'Radius',
             content: Row(
@@ -201,7 +172,7 @@ class _FlightFormState extends State<FlightForm> {
           ),
           const SizedBox(height: 16),
           // TODO: Submit and validate FlightForm
-          CustomElevatedButton(label: 'Submit', onPressed: () {}),
+          CustomElevatedButton(label: 'Submit', onPressed: _onSubmit),
         ],
       ),
     );
