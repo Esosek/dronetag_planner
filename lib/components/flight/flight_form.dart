@@ -1,3 +1,4 @@
+import 'package:dronetag_planner/components/flight/form_inputs/radius_input.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
@@ -96,36 +97,9 @@ class _FlightFormState extends State<FlightForm> {
                 });
               }),
           const OriginInput(),
-          FlightFormField(
-            label: 'Radius',
-            content: Row(
-              children: [
-                Icon(
-                  Icons.adjust,
-                  color: Colors.grey.shade600,
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      enableDrag: false,
-                      context: context,
-                      builder: (context) => CustomNumberPicker(
-                        minValue: 10,
-                        maxValue: 5000,
-                        step: 10,
-                        initialValue: _radius,
-                        onSaved: (selectedRadius) =>
-                            setState(() => _radius = selectedRadius),
-                      ),
-                    );
-                  },
-                  child: Text(_radius.toString()),
-                ),
-                const SizedBox(width: 4),
-                const Text('meters'),
-              ],
-            ),
+          RadiusInput(
+            value: _radius,
+            onSelect: (newValue) => setState(() => _radius = newValue),
           ),
           FlightFormField(
             label: 'Altitude',
