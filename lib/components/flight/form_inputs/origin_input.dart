@@ -27,8 +27,25 @@ class OriginInput extends StatelessWidget {
           CustomTextField(
             hintText: 'Latitude',
             validator: (value) {
-              // TODO: Add Latitude validator
-              return null;
+              const failText = '-90.0 to 90.0';
+              if (value == null) {
+                return failText;
+              }
+
+              try {
+                final double latitude = double.parse(value);
+
+                if (latitude >= -90.0 && latitude <= 90.0) {
+                  // Valid latitude within the range
+                  return null;
+                } else {
+                  // Latitude is out of range
+                  return failText;
+                }
+              } catch (e) {
+                // Parsing error, not a valid double
+                return failText;
+              }
             },
             onSaved: onLatitudeSaved,
           ),
@@ -36,8 +53,25 @@ class OriginInput extends StatelessWidget {
           CustomTextField(
             hintText: 'Longitude',
             validator: (value) {
-              // TODO: Add Longitude validator
-              return null;
+              const failText = '-180.0 to 180.0';
+              if (value == null) {
+                return failText;
+              }
+
+              try {
+                final double longitude = double.parse(value);
+
+                if (longitude >= -180.0 && longitude <= 180.0) {
+                  // Valid latitude within the range
+                  return null;
+                } else {
+                  // Latitude is out of range
+                  return failText;
+                }
+              } catch (e) {
+                // Parsing error, not a valid double
+                return failText;
+              }
             },
             onSaved: onLongitudeSaved,
           ),

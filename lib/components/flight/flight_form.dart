@@ -1,6 +1,5 @@
-import 'package:dronetag_planner/models/flight_location.dart';
-import 'package:dronetag_planner/providers/devices_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
 import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
@@ -8,10 +7,11 @@ import 'package:dronetag_planner/components/flight/form_inputs/date_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/time_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/origin_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/radius_input.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/altitude_input.dart';
 import 'package:dronetag_planner/models/device.dart';
 import 'package:dronetag_planner/models/flight.dart';
+import 'package:dronetag_planner/models/flight_location.dart';
+import 'package:dronetag_planner/providers/devices_provider.dart';
 
 class FlightForm extends ConsumerStatefulWidget {
   const FlightForm({super.key});
@@ -89,12 +89,10 @@ class _FlightFormState extends ConsumerState<FlightForm> {
   }
 
   bool _isFormValid() {
-    // TODO: Add flight form validation
     if (!_formKey.currentState!.validate()) {
       return false;
     }
     _formKey.currentState!.save();
-
     return true;
   }
 
@@ -179,7 +177,6 @@ class _FlightFormState extends ConsumerState<FlightForm> {
             setMaxAltitude: _setMaxAltitude,
           ),
           const SizedBox(height: 16),
-          // TODO: Submit and validate FlightForm
           CustomElevatedButton(label: 'Submit', onPressed: _onSubmit),
         ],
       ),
