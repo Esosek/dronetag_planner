@@ -1,4 +1,5 @@
-import 'package:dronetag_planner/components/flight/form_inputs/altitude_input.dart';
+import 'package:dronetag_planner/models/flight_location.dart';
+import 'package:dronetag_planner/providers/devices_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
@@ -7,18 +8,23 @@ import 'package:dronetag_planner/components/flight/form_inputs/date_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/time_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/origin_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/radius_input.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:dronetag_planner/components/flight/form_inputs/altitude_input.dart';
+import 'package:dronetag_planner/models/device.dart';
+import 'package:dronetag_planner/models/flight.dart';
 
-class FlightForm extends StatefulWidget {
+class FlightForm extends ConsumerStatefulWidget {
   const FlightForm({super.key});
 
   @override
-  State<FlightForm> createState() => _FlightFormState();
+  ConsumerState<FlightForm> createState() => _FlightFormState();
 }
 
-class _FlightFormState extends State<FlightForm> {
+class _FlightFormState extends ConsumerState<FlightForm> {
   final log = CustomLogger('FlightForm');
-  final _formKey = GlobalKey();
+  final _formKey = GlobalKey<FormState>();
 
+  late Device _activeDevice;
   DateTime _date = DateTime.now();
   TimeOfDay _timeStart = TimeOfDay.now();
   TimeOfDay _timeEnd =
@@ -28,6 +34,14 @@ class _FlightFormState extends State<FlightForm> {
   int _radius = 50;
   int _minAltitude = 0;
   int _maxAltitude = 50;
+
+  @override
+  void initState() {
+    super.initState();
+    _activeDevice = ref.read(devicesProvider).firstWhere(
+          (device) => device.isActive,
+        );
+  }
 
   void _setMinAltitude(int newMinAltitude) {
     setState(() {
@@ -52,13 +66,41 @@ class _FlightFormState extends State<FlightForm> {
 
   void _onSubmit() async {
     if (!_isFormValid()) {
+      log.debug('Validation failed');
       return;
     }
-    // TODO: Implement FlightForm onSubmit
+
+    final dateStart = DateTime(
+        _date.year, _date.month, _date.day, _timeStart.hour, _timeStart.minute);
+    final dateEnd = DateTime(
+        _date.year,
+        _date.month,
+        _timeStart.hour > _timeEnd.hour ? _date.day + 1 : _date.day,
+        _timeEnd.hour,
+        _timeEnd.minute);
+
+    final newFlight = Flight(
+      device: _activeDevice,
+      location: FlightLocation(
+          latitude: double.parse(_originLatitude),
+          longitude: double.parse(_originLongiude),
+          radius: _radius),
+      altitudeRange: [_minAltitude, _maxAltitude],
+      dateStart: dateStart.toString(),
+      dateEnd: dateEnd.toString(),
+    );
+
+    log.debug(
+        '${newFlight.device.uasId} ${newFlight.location.latitude.toString()} ${newFlight.location.longitude.toString()} ${newFlight.location.radius} ${newFlight.altitudeRange[0]} ${newFlight.altitudeRange[1]} ${newFlight.dateStart} ${newFlight.dateEnd}');
   }
 
   bool _isFormValid() {
     // TODO: Add flight form validation
+    if (!_formKey.currentState!.validate()) {
+      return false;
+    }
+    _formKey.currentState!.save();
+
     return true;
   }
 
@@ -81,18 +123,22 @@ class _FlightFormState extends State<FlightForm> {
               context: context,
               timeStart: _timeStart,
               timeEnd: _timeEnd,
-              onTimePicked: (timeStart, timeEnd) {
+              onTimePicked: (timeStart, timeEnd, isPickingStart) {
                 log.trace(
                     'User picked startTime $timeStart and endtime $timeEnd');
                 setState(() {
                   _timeStart = timeStart;
-                  if (timeEnd.hour < timeStart.hour) {
-                    _timeEnd = TimeOfDay(
-                        hour: _timeStart.hour + 1, minute: _timeStart.minute);
-                  } else if (timeEnd.hour == timeStart.hour &&
-                      timeEnd.minute <= timeStart.minute) {
-                    _timeEnd = TimeOfDay(
-                        hour: _timeStart.hour + 1, minute: _timeStart.minute);
+                  if (isPickingStart) {
+                    if (timeEnd.hour < timeStart.hour) {
+                      _timeEnd = TimeOfDay(
+                          hour: _timeStart.hour + 1, minute: _timeStart.minute);
+                    } else if (timeEnd.hour == timeStart.hour &&
+                        timeEnd.minute <= timeStart.minute) {
+                      _timeEnd = TimeOfDay(
+                          hour: _timeStart.hour + 1, minute: _timeStart.minute);
+                    } else {
+                      _timeEnd = timeEnd;
+                    }
                   } else {
                     _timeEnd = timeEnd;
                   }

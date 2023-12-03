@@ -14,15 +14,16 @@ class TimeInput extends StatelessWidget {
   final BuildContext context;
   final TimeOfDay timeStart;
   final TimeOfDay timeEnd;
-  final Function(TimeOfDay timeStart, TimeOfDay timeEnd) onTimePicked;
+  final Function(TimeOfDay timeStart, TimeOfDay timeEnd, bool isPickingStart)
+      onTimePicked;
 
   void _openTimePicker(bool isStartDate) async {
     final now = TimeOfDay.now();
     final pickedTime = await showTimePicker(context: context, initialTime: now);
     if (pickedTime != null) {
       isStartDate
-          ? onTimePicked(pickedTime, timeEnd)
-          : onTimePicked(timeStart, pickedTime);
+          ? onTimePicked(pickedTime, timeEnd, true)
+          : onTimePicked(timeStart, pickedTime, false);
     }
   }
 
@@ -40,7 +41,7 @@ class TimeInput extends StatelessWidget {
           OutlinedButton(
             onPressed: () => _openTimePicker(true),
             child: Text(
-              '${timeStart.hour}:${timeStart.minute.toString().padLeft(2, '0')}',
+              '${timeStart.hour.toString().padLeft(2, '0')}:${timeStart.minute.toString().padLeft(2, '0')}',
             ),
           ),
           const Text(
@@ -49,7 +50,7 @@ class TimeInput extends StatelessWidget {
           OutlinedButton(
             onPressed: () => _openTimePicker(false),
             child: Text(
-              '${timeEnd.hour}:${timeEnd.minute.toString().padLeft(2, '0')}',
+              '${timeEnd.hour.toString().padLeft(2, '0')}:${timeEnd.minute.toString().padLeft(2, '0')}',
             ),
           ),
         ],
