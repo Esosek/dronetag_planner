@@ -9,8 +9,8 @@ class CustomTextField extends StatelessWidget {
   });
 
   final String? hintText;
-  final String Function(String?)? validator;
-  final Function(String?)? onSaved;
+  final String? Function(String? value)? validator;
+  final Function(String? value)? onSaved;
 
   @override
   Widget build(BuildContext context) {

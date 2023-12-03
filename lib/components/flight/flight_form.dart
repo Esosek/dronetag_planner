@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
 import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
-import 'package:dronetag_planner/components/flight/flight_form_field.dart';
-import 'package:dronetag_planner/components/ui/custom_number_picker.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/date_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/time_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/origin_input.dart';
@@ -25,8 +23,8 @@ class _FlightFormState extends State<FlightForm> {
   TimeOfDay _timeStart = TimeOfDay.now();
   TimeOfDay _timeEnd =
       TimeOfDay(hour: TimeOfDay.now().hour + 1, minute: TimeOfDay.now().minute);
-  late int _originLatitude;
-  late int _originLongiude;
+  late String _originLatitude;
+  late String _originLongiude;
   int _radius = 50;
   int _minAltitude = 0;
   int _maxAltitude = 50;
@@ -100,7 +98,10 @@ class _FlightFormState extends State<FlightForm> {
                   }
                 });
               }),
-          const OriginInput(),
+          OriginInput(
+            onLatitudeSaved: (value) => _originLatitude = value ?? '',
+            onLongitudeSaved: (value) => _originLongiude = value ?? '',
+          ),
           RadiusInput(
             value: _radius,
             onSelect: (newValue) => setState(() => _radius = newValue),
