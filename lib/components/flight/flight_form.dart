@@ -1,4 +1,4 @@
-import 'package:dronetag_planner/components/flight/form_inputs/radius_input.dart';
+import 'package:dronetag_planner/components/flight/form_inputs/altitude_input.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dronetag_planner/utility/custom_logger.dart';
@@ -8,6 +8,7 @@ import 'package:dronetag_planner/components/ui/custom_number_picker.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/date_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/time_input.dart';
 import 'package:dronetag_planner/components/flight/form_inputs/origin_input.dart';
+import 'package:dronetag_planner/components/flight/form_inputs/radius_input.dart';
 
 class FlightForm extends StatefulWidget {
   const FlightForm({super.key});
@@ -44,6 +45,9 @@ class _FlightFormState extends State<FlightForm> {
       _maxAltitude = newMaxAltitude;
       if (newMaxAltitude < _minAltitude) {
         _minAltitude = newMaxAltitude - 50;
+        if (_minAltitude < 0) {
+          _minAltitude = 0;
+        }
       }
     });
   }
@@ -101,48 +105,11 @@ class _FlightFormState extends State<FlightForm> {
             value: _radius,
             onSelect: (newValue) => setState(() => _radius = newValue),
           ),
-          FlightFormField(
-            label: 'Altitude',
-            content: Row(
-              children: [
-                Icon(
-                  Icons.height,
-                  color: Colors.grey.shade600,
-                ),
-                const SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () => showBottomSheet(
-                    context: context,
-                    enableDrag: false,
-                    builder: (context) => CustomNumberPicker(
-                      minValue: 0,
-                      maxValue: 1000,
-                      step: 10,
-                      initialValue: _minAltitude,
-                      onSaved: _setMinAltitude,
-                    ),
-                  ),
-                  child: Text(_minAltitude.toString()),
-                ),
-                const Text(' - '),
-                OutlinedButton(
-                  onPressed: () => showBottomSheet(
-                    context: context,
-                    enableDrag: false,
-                    builder: (context) => CustomNumberPicker(
-                      minValue: 0,
-                      maxValue: 1000,
-                      step: 10,
-                      initialValue: _maxAltitude,
-                      onSaved: _setMaxAltitude,
-                    ),
-                  ),
-                  child: Text(_maxAltitude.toString()),
-                ),
-                const SizedBox(width: 4),
-                const Text('meters'),
-              ],
-            ),
+          AltitudeInput(
+            minAltitudeValue: _minAltitude,
+            maxAltitudeValue: _maxAltitude,
+            setMinAltitude: _setMinAltitude,
+            setMaxAltitude: _setMaxAltitude,
           ),
           const SizedBox(height: 16),
           // TODO: Submit and validate FlightForm
