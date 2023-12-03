@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key, this.hintText});
+  const CustomTextField({
+    super.key,
+    this.hintText,
+    this.validator,
+    this.onSaved,
+  });
 
   final String? hintText;
+  final String Function(String?)? validator;
+  final Function(String?)? onSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +31,8 @@ class CustomTextField extends StatelessWidget {
               .bodyMedium!
               .copyWith(color: Theme.of(context).colorScheme.primary),
         ),
+        validator: validator,
+        onSaved: onSaved,
       ),
     );
   }
