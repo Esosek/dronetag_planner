@@ -72,12 +72,6 @@ class _FlightFormState extends ConsumerState<FlightForm> {
 
     final dateStart = DateTime(
         _date.year, _date.month, _date.day, _timeStart.hour, _timeStart.minute);
-    final dateEnd = DateTime(
-        _date.year,
-        _date.month,
-        _timeStart.hour > _timeEnd.hour ? _date.day + 1 : _date.day,
-        _timeEnd.hour,
-        _timeEnd.minute);
 
     final newFlight = Flight(
       device: _activeDevice,
@@ -87,7 +81,7 @@ class _FlightFormState extends ConsumerState<FlightForm> {
           radius: _radius),
       altitudeRange: [_minAltitude, _maxAltitude],
       dateStart: dateStart.toString(),
-      dateEnd: dateEnd.toString(),
+      dateEnd: _dateEnd.toString(),
     );
 
     log.debug(
@@ -102,6 +96,32 @@ class _FlightFormState extends ConsumerState<FlightForm> {
     _formKey.currentState!.save();
 
     return true;
+  }
+
+  DateTime get _dateEnd {
+    DateTime dateEnd;
+
+    if (_timeStart.hour > _timeEnd.hour ||
+        (_timeStart.hour == _timeEnd.hour &&
+            _timeStart.minute > _timeEnd.minute)) {
+      // If _timeStart is later than _timeEnd on the same day, increment the day
+      dateEnd = DateTime(
+        _date.year,
+        _date.month,
+        _date.day + 1,
+        _timeEnd.hour,
+        _timeEnd.minute,
+      );
+    } else {
+      dateEnd = DateTime(
+        _date.year,
+        _date.month,
+        _date.day,
+        _timeEnd.hour,
+        _timeEnd.minute,
+      );
+    }
+    return dateEnd;
   }
 
   @override
