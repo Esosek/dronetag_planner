@@ -41,8 +41,8 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
     }
 
     _formKey.currentState!.save();
-
     _devicesNotifier.addDevice(Device(uasId: _uasId, label: _label));
+
     // Submit successful
     widget.onDeviceCreated();
   }
@@ -64,6 +64,16 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
     return true;
   }
 
+  bool _doesUasIdExist(String uasId) {
+    // Prevents duplicity
+    for (Device existingDevice in ref.read(devicesProvider)) {
+      if (existingDevice.uasId == uasId) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   @override
   Widget build(BuildContext context) {
     final isLandscape =
@@ -78,6 +88,8 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
             validator: (value) {
               if (value == null || !_isUasIdValid(value)) {
                 return 'Please enter a valid UAS ID';
+              } else if (_doesUasIdExist(value)) {
+                return 'Device with this UAS ID is already registered';
               }
               return null;
             },
