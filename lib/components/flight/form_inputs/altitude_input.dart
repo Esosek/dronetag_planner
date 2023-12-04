@@ -34,7 +34,7 @@ class AltitudeInput extends StatelessWidget {
               enableDrag: false,
               builder: (context) => CustomNumberPicker(
                 minValue: 0,
-                maxValue: 1000,
+                maxValue: 2950,
                 step: 10,
                 initialValue: minAltitudeValue,
                 onSaved: setMinAltitude,
@@ -49,7 +49,7 @@ class AltitudeInput extends StatelessWidget {
               enableDrag: false,
               builder: (context) => CustomNumberPicker(
                 minValue: 0,
-                maxValue: 1000,
+                maxValue: 3000,
                 step: 10,
                 initialValue: maxAltitudeValue,
                 onSaved: setMaxAltitude,
