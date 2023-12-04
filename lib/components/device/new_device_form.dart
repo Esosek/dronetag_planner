@@ -41,7 +41,9 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
     }
 
     _formKey.currentState!.save();
-    _devicesNotifier.addDevice(Device(uasId: _uasId, label: _label));
+    _devicesNotifier.addDevice(
+      Device(uasId: _uasId, label: _label.isEmpty ? null : _label),
+    );
 
     // Submit successful
     widget.onDeviceCreated();
