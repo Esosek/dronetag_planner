@@ -1,4 +1,5 @@
 import 'package:dronetag_planner/models/device.dart';
+import 'package:dronetag_planner/utility/custom_logger.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:dronetag_planner/models/flight.dart';
@@ -31,11 +32,15 @@ const _dummyFlights = [
 class FlightsProvider extends StateNotifier<List<Flight>> {
   FlightsProvider() : super(_dummyFlights);
 
+  final log = CustomLogger('FlightsProvider');
+
   // returns null if successfull
   // returns error message otherwise
   Future<String?> addFlight(Flight flight) async {
     // TODO: Send flight to server
     state = [...state, flight];
+    log.debug(
+        'Added new Flight UAS ID:${flight.device.uasId}, Lat:${flight.location.latitude.toString()}, Lng:${flight.location.longitude.toString()}, Radius:${flight.location.radius}, Altitude:${flight.altitudeRange[0]}-${flight.altitudeRange[1]}, Date Start:${flight.dateStart}, Date End:${flight.dateEnd}');
     return null;
   }
 }

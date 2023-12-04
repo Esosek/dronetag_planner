@@ -1,3 +1,4 @@
+import 'package:dronetag_planner/providers/flights_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -84,8 +85,15 @@ class _FlightFormState extends ConsumerState<FlightForm> {
       dateEnd: _dateEnd.toString(),
     );
 
-    log.debug(
-        '${newFlight.device.uasId} ${newFlight.location.latitude.toString()} ${newFlight.location.longitude.toString()} ${newFlight.location.radius} ${newFlight.altitudeRange[0]} ${newFlight.altitudeRange[1]} ${newFlight.dateStart} ${newFlight.dateEnd}');
+    final result =
+        await ref.read(flightsProvider.notifier).addFlight(newFlight);
+    if (result != null) {
+      log.debug(result);
+    } else {
+      log.debug('Flight successfully saved');
+      // ScaffoldMessenger.of(context).showSnackBar(SnackBar( content: Text('Your flight was successfully saved.'),),);
+      if (context.mounted) Navigator.pop(context);
+    }
   }
 
   bool _isFormValid() {
