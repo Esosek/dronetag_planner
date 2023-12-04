@@ -8,6 +8,7 @@ class CustomElevatedButton extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.fixWidth,
+    this.enabled = true,
   });
 
   final Widget child;
@@ -15,6 +16,7 @@ class CustomElevatedButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final double? fixWidth;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class CustomElevatedButton extends StatelessWidget {
               backgroundColor ?? Theme.of(context).colorScheme.primaryContainer,
           minimumSize: const Size(90, 40),
         ),
-        onPressed: onPressed,
+        onPressed: enabled ? onPressed : null,
         child: child,
       ),
     );

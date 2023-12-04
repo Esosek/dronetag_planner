@@ -68,12 +68,11 @@ class _FlightFormState extends ConsumerState<FlightForm> {
   }
 
   void _onSubmit() async {
-    setState(() {
-      _isSubmitting = true;
-    });
+    setState(() => _isSubmitting = true);
 
     if (!_isFormValid()) {
-      log.debug('Validation failed');
+      log.warning('Invalid latitude or longitude');
+      setState(() => _isSubmitting = false);
       return;
     }
 
@@ -91,28 +90,25 @@ class _FlightFormState extends ConsumerState<FlightForm> {
       dateEnd: _dateEnd.toString(),
     );
 
-    final result =
-        await ref.read(flightsProvider.notifier).addFlight(newFlight);
-    // Saving Flight failed
-    if (result != null) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: const Duration(seconds: 10),
-            backgroundColor: Colors.red.shade800,
-            content: Text(result),
-          ),
-        );
+    final error = await ref.read(flightsProvider.notifier).addFlight(newFlight);
+
+    if (context.mounted) {
+      // Pop when successful
+      if (error == null) {
+        Navigator.pop(context);
       }
+
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          duration: const Duration(seconds: 10),
+          backgroundColor: error == null ? null : Colors.red.shade800,
+          content: Text(error ?? 'Flight was successfully submitted'),
+        ),
+      );
     }
-    // Saving flight successful
-    else if (context.mounted) {
-      Navigator.pop(context);
-    }
-    setState(() {
-      _isSubmitting = false;
-    });
+
+    setState(() => _isSubmitting = false);
   }
 
   bool _isFormValid() {
@@ -205,9 +201,13 @@ class _FlightFormState extends ConsumerState<FlightForm> {
           ),
           const SizedBox(height: 16),
           CustomElevatedButton(
+            enabled: !_isSubmitting,
             onPressed: _onSubmit,
             child: _isSubmitting
-                ? const CircularProgressIndicator()
+                ? const SizedBox.square(
+                    dimension: 16,
+                    child: CircularProgressIndicator(),
+                  )
                 : const Text('Submit'),
           ),
         ],
