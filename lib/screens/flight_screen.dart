@@ -15,6 +15,7 @@ class FlightScreen extends ConsumerWidget {
 
     return ScreenWrapper(
       screenTitle: 'Your planned flights',
+      bodyPadding: const EdgeInsets.fromLTRB(12, 12, 12, 40),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => Navigator.push(
