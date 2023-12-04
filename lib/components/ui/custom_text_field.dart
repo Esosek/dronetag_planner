@@ -6,11 +6,13 @@ class CustomTextField extends StatelessWidget {
     this.hintText,
     this.validator,
     this.onSaved,
+    this.maxLength,
   });
 
   final String? hintText;
   final String? Function(String? value)? validator;
   final Function(String? value)? onSaved;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class CustomTextField extends StatelessWidget {
         enableSuggestions: false,
         keyboardType: TextInputType.number,
         textAlign: TextAlign.center,
+        maxLength: maxLength,
         style: TextStyle(
           color: Theme.of(context).colorScheme.primary,
           fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,

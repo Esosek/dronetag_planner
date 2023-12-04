@@ -26,6 +26,7 @@ class OriginInput extends StatelessWidget {
           const SizedBox(width: 8),
           CustomTextField(
             hintText: 'Latitude',
+            maxLength: 11,
             validator: (value) {
               const failText = '-90.0 to 90.0';
               if (value == null) {
@@ -52,6 +53,7 @@ class OriginInput extends StatelessWidget {
           const Text(' , '),
           CustomTextField(
             hintText: 'Longitude',
+            maxLength: 11,
             validator: (value) {
               const failText = '-180.0 to 180.0';
               if (value == null) {
