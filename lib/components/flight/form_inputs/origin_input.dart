@@ -28,7 +28,7 @@ class OriginInput extends StatelessWidget {
             hintText: 'Latitude',
             maxLength: 11,
             validator: (value) {
-              const failText = '-90.0 to 90.0';
+              const failText = 'Invalid';
               if (value == null) {
                 return failText;
               }
@@ -55,7 +55,7 @@ class OriginInput extends StatelessWidget {
             hintText: 'Longitude',
             maxLength: 11,
             validator: (value) {
-              const failText = '-180.0 to 180.0';
+              const failText = 'Invalid';
               if (value == null) {
                 return failText;
               }
