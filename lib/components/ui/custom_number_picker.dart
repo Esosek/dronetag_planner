@@ -68,11 +68,12 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
             ),
             const SizedBox(height: 8),
             CustomElevatedButton(
-                label: 'Save',
-                onPressed: () {
-                  Navigator.pop(context);
-                  widget.onSaved(_value);
-                }),
+              onPressed: () {
+                Navigator.pop(context);
+                widget.onSaved(_value);
+              },
+              child: const Text('Save'),
+            ),
           ],
         ),
       ),

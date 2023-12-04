@@ -19,7 +19,6 @@ class ActiveDeviceIndicator extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomElevatedButton(
-            label: activeDevice.label ?? activeDevice.uasId,
             foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
             backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
             fixWidth: 160,
@@ -28,6 +27,7 @@ class ActiveDeviceIndicator extends ConsumerWidget {
                 builder: (context) => const DeviceScreen(),
               ),
             ),
+            child: Text(activeDevice.label ?? activeDevice.uasId),
           ),
           Text(
             'Tap to switch',

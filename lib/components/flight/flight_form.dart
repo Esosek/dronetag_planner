@@ -1,4 +1,3 @@
-import 'package:dronetag_planner/providers/flights_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,6 +12,7 @@ import 'package:dronetag_planner/models/device.dart';
 import 'package:dronetag_planner/models/flight.dart';
 import 'package:dronetag_planner/models/flight_location.dart';
 import 'package:dronetag_planner/providers/devices_provider.dart';
+import 'package:dronetag_planner/providers/flights_provider.dart';
 
 class FlightForm extends ConsumerStatefulWidget {
   const FlightForm({super.key});
@@ -24,6 +24,8 @@ class FlightForm extends ConsumerStatefulWidget {
 class _FlightFormState extends ConsumerState<FlightForm> {
   final log = CustomLogger('FlightForm');
   final _formKey = GlobalKey<FormState>();
+
+  bool _isSubmitting = false;
 
   late Device _activeDevice;
   DateTime _date = DateTime.now();
@@ -66,6 +68,10 @@ class _FlightFormState extends ConsumerState<FlightForm> {
   }
 
   void _onSubmit() async {
+    setState(() {
+      _isSubmitting = true;
+    });
+
     if (!_isFormValid()) {
       log.debug('Validation failed');
       return;
@@ -104,6 +110,9 @@ class _FlightFormState extends ConsumerState<FlightForm> {
     else if (context.mounted) {
       Navigator.pop(context);
     }
+    setState(() {
+      _isSubmitting = false;
+    });
   }
 
   bool _isFormValid() {
@@ -195,7 +204,12 @@ class _FlightFormState extends ConsumerState<FlightForm> {
             setMaxAltitude: _setMaxAltitude,
           ),
           const SizedBox(height: 16),
-          CustomElevatedButton(label: 'Submit', onPressed: _onSubmit),
+          CustomElevatedButton(
+            onPressed: _onSubmit,
+            child: _isSubmitting
+                ? const CircularProgressIndicator()
+                : const Text('Submit'),
+          ),
         ],
       ),
     );

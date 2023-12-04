@@ -89,7 +89,10 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
               ),
             ),
           if (!isLandscape) const SizedBox(height: 24),
-          CustomElevatedButton(label: 'Submit', onPressed: _onSubmit),
+          CustomElevatedButton(
+            onPressed: _onSubmit,
+            child: const Text('Submit'),
+          ),
         ],
       ),
     );
