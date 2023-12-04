@@ -38,6 +38,9 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
   // returns error message otherwise
   Future<String?> addFlight(Flight flight) async {
     // TODO: Send flight to server
+    // if (true) {
+    //   return 'Server goes down';
+    // }
     state = [...state, flight];
     log.debug(
         'Added new Flight UAS ID:${flight.device.uasId}, Lat:${flight.location.latitude.toString()}, Lng:${flight.location.longitude.toString()}, Radius:${flight.location.radius}, Altitude:${flight.altitudeRange[0]}-${flight.altitudeRange[1]}, Date Start:${flight.dateStart}, Date End:${flight.dateEnd}');

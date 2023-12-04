@@ -87,12 +87,24 @@ class _FlightFormState extends ConsumerState<FlightForm> {
 
     final result =
         await ref.read(flightsProvider.notifier).addFlight(newFlight);
+    // Saving Flight failed
     if (result != null) {
-      log.debug(result);
-    } else {
-      log.debug('Flight successfully saved');
-      // ScaffoldMessenger.of(context).showSnackBar(SnackBar( content: Text('Your flight was successfully saved.'),),);
-      if (context.mounted) Navigator.pop(context);
+      log.warning(result);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            duration: const Duration(seconds: 10),
+            backgroundColor: Colors.red.shade800,
+            content: Text(result),
+          ),
+        );
+      }
+    }
+    // Saving flight successful
+    else if (context.mounted) {
+      Navigator.pop(context);
+      log.trace('New flight successfully saved');
     }
   }
 
