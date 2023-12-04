@@ -89,7 +89,6 @@ class _FlightFormState extends ConsumerState<FlightForm> {
         await ref.read(flightsProvider.notifier).addFlight(newFlight);
     // Saving Flight failed
     if (result != null) {
-      log.warning(result);
       if (context.mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -104,7 +103,6 @@ class _FlightFormState extends ConsumerState<FlightForm> {
     // Saving flight successful
     else if (context.mounted) {
       Navigator.pop(context);
-      log.trace('New flight successfully saved');
     }
   }
 

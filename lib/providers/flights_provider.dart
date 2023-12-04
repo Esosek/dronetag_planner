@@ -1,9 +1,12 @@
-import 'package:dronetag_planner/models/device.dart';
-import 'package:dronetag_planner/utility/custom_logger.dart';
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:dronetag_planner/models/flight.dart';
 import 'package:dronetag_planner/models/flight_location.dart';
+import 'package:dronetag_planner/models/device.dart';
+import 'package:dronetag_planner/utility/custom_logger.dart';
 
 const _dummyFlights = [
   Flight(
@@ -37,14 +40,55 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
   // returns null if successfull
   // returns error message otherwise
   Future<String?> addFlight(Flight flight) async {
-    // TODO: Send flight to server
-    // if (true) {
-    //   return 'Server goes down';
-    // }
+    final result = await _postFlight(flight);
+    if (result != null) {
+      return result;
+    }
+
     state = [...state, flight];
     log.debug(
         'Added new Flight UAS ID:${flight.device.uasId}, Lat:${flight.location.latitude.toString()}, Lng:${flight.location.longitude.toString()}, Radius:${flight.location.radius}, Altitude:${flight.altitudeRange[0]}-${flight.altitudeRange[1]}, Date Start:${flight.dateStart}, Date End:${flight.dateEnd}');
     return null;
+  }
+
+  // returns status code and message
+  // { 'status_code': 409, 'message': 'Too close to another flight'}
+  Future<String?> _postFlight(Flight flight) async {
+    final requestData = {
+      'uas_id': flight.device.uasId,
+      'location': {
+        'latitude': flight.location.latitude,
+        'longitude': flight.location.longitude,
+        'radius': flight.location.radius,
+      },
+      'altitude': {
+        'min': flight.altitudeRange[0],
+        'max': flight.altitudeRange[1],
+      },
+      'date_start': flight.dateStart,
+      'date_end': flight.dateEnd,
+    };
+    try {
+      final url = Uri.parse('http://10.0.2.2:3013/plan');
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode(requestData),
+      );
+
+      // fetch error message when request failed
+      if (response.statusCode != 200) {
+        final responseBody = jsonDecode(response.body);
+        log.trace(
+            'Saving flight failed with code ${response.statusCode}: ${responseBody['error_message']}');
+        return responseBody['error_message'];
+      }
+
+      return null;
+    } catch (error) {
+      log.error(error.toString());
+      return 'Service is down. Please try again later.';
+    }
   }
 }
 
