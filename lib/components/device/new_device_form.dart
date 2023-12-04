@@ -36,9 +36,6 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
   }
 
   void _onSubmit() {
-    // TODO: Implement NewDeviceForm onSubmit
-    // TODO: Validate new device
-
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -48,6 +45,23 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
     _devicesNotifier.addDevice(Device(uasId: _uasId, label: _label));
     // Submit successful
     widget.onDeviceCreated();
+  }
+
+  bool _isUasIdValid(String uasId) {
+    // Only alphanumeric characters allowed
+    if (!RegExp(r'^[a-zA-Z0-9]+$').hasMatch(uasId)) {
+      return false;
+    }
+
+    final serialLength = int.parse(uasId.substring(4, 5), radix: 16);
+    final serialNumber = uasId.substring(5);
+
+    // Check serial number length
+    if (serialNumber.length != serialLength) {
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -62,7 +76,9 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
             maxLength: 20,
             textAlign: TextAlign.center,
             validator: (value) {
-              // TODO: Implement UAS ID form validation
+              if (value == null || !_isUasIdValid(value)) {
+                return 'Please enter a valid UAS ID';
+              }
               return null;
             },
             onSaved: (newValue) => _uasId = newValue ?? '',
@@ -79,10 +95,6 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
             TextFormField(
               maxLength: 20,
               textAlign: TextAlign.center,
-              validator: (value) {
-                // TODO: Implement device label form validation
-                return null;
-              },
               onSaved: (newValue) => _label = newValue ?? '',
               decoration: const InputDecoration(
                 labelText: 'Label',
