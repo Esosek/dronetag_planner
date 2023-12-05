@@ -66,10 +66,10 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
     return true;
   }
 
-  bool _doesUasIdExist(String uasId) {
+  bool _doesDeviceExist(String device) {
     // Prevents duplicity
     for (Device existingDevice in ref.read(devicesProvider)) {
-      if (existingDevice.uasId == uasId) {
+      if (device == existingDevice.uasId || device == existingDevice.label) {
         return true;
       }
     }
@@ -90,7 +90,7 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
             validator: (value) {
               if (value == null || !_isUasIdValid(value)) {
                 return 'Please enter a valid UAS ID';
-              } else if (_doesUasIdExist(value)) {
+              } else if (_doesDeviceExist(value)) {
                 return 'Device with this UAS ID is already registered';
               }
               return null;
@@ -109,6 +109,14 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
             TextFormField(
               maxLength: 20,
               textAlign: TextAlign.center,
+              validator: (value) {
+                if (value == null) {
+                  return null;
+                } else if (_doesDeviceExist(value)) {
+                  return 'Device with this label already exist';
+                }
+                return null;
+              },
               onSaved: (newValue) => _label = newValue ?? '',
               decoration: const InputDecoration(
                 labelText: 'Label',
