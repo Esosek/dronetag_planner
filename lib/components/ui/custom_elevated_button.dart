@@ -24,7 +24,8 @@ class CustomElevatedButton extends StatelessWidget {
       width: fixWidth,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          foregroundColor: foregroundColor,
+          foregroundColor:
+              foregroundColor ?? Theme.of(context).colorScheme.onPrimary,
           backgroundColor:
               backgroundColor ?? Theme.of(context).colorScheme.primaryContainer,
           minimumSize: const Size(90, 40),

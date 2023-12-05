@@ -24,8 +24,14 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       home: const LoginScreen(),
       theme: _theme.copyWith(
-        floatingActionButtonTheme: const FloatingActionButtonThemeData()
-            .copyWith(backgroundColor: _theme.colorScheme.primaryContainer),
+        floatingActionButtonTheme:
+            const FloatingActionButtonThemeData().copyWith(
+          backgroundColor: _theme.colorScheme.primaryContainer,
+          foregroundColor: _theme.colorScheme.onPrimary,
+        ),
+        appBarTheme: AppBarTheme(
+          foregroundColor: _theme.colorScheme.onPrimary,
+        ),
       ),
     );
   }

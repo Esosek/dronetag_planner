@@ -13,27 +13,28 @@ class LoginScreen extends StatelessWidget {
         MediaQuery.of(context).orientation == Orientation.landscape;
     return ScreenWrapper(
       bodyPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Drone planner',
-              style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            Text(
-              'Please register your device to proceed',
-              style: Theme.of(context).textTheme.bodyMedium,
-            ),
-            if (!isLandscape) const SizedBox(height: 40),
-            NewDeviceForm(
-              onDeviceCreated: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const FlightScreen(),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                'Drone planner',
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+              Text(
+                'Please register your device to proceed',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              if (!isLandscape) const SizedBox(height: 40),
+              NewDeviceForm(
+                onDeviceCreated: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const FlightScreen(),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
