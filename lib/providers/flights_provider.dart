@@ -18,8 +18,10 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
     if (result != null) {
       return result;
     }
-
-    state = [...state, flight];
+    final newState = [...state, flight];
+    // Sort by dateStart
+    newState.sort((a, b) => a.dateStart.isBefore(b.dateStart) ? 0 : 1);
+    state = newState;
     log.trace(
         'Added new Flight UAS ID:${flight.device.uasId}, Lat:${flight.location.latitude.toString()}, Lng:${flight.location.longitude.toString()}, Radius:${flight.location.radius}, Altitude:${flight.altitudeRange[0]}-${flight.altitudeRange[1]}, Date Start:${flight.dateStart}, Date End:${flight.dateEnd}');
     return null;
