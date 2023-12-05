@@ -1,7 +1,7 @@
 # DroneTag planner assignment
 Simple flight planner for drone devices.
 ## Time spent
-**Total:** 18h 52m
+**Total:** 19h 04m
 - **Planning:** 1h 15m
 - **UI:** 8h 42m
 - **Code:** 8h 05m
