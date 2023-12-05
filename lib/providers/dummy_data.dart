@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:dronetag_planner/models/flight.dart';
 import 'package:dronetag_planner/models/flight_location.dart';
 import 'package:dronetag_planner/models/device.dart';
