@@ -12,6 +12,8 @@ class FlightScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isLandcape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final flights = ref.watch(flightsProvider);
     final scheduledFlights = flights.where((flight) {
       if (flight.dateEnd.isBefore(DateTime.now())) {
@@ -40,7 +42,7 @@ class FlightScreen extends ConsumerWidget {
 
     return ScreenWrapper(
       screenTitle: 'Your planned flights',
-      bodyPadding: const EdgeInsets.fromLTRB(12, 12, 12, 40),
+      bodyPadding: EdgeInsets.fromLTRB(12, 12, 12, isLandcape ? 80 : 40),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () => Navigator.push(
@@ -50,7 +52,9 @@ class FlightScreen extends ConsumerWidget {
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: isLandcape
+          ? FloatingActionButtonLocation.endFloat
+          : FloatingActionButtonLocation.centerFloat,
       body: flights.isEmpty
           ? emptyFlightsContent
           : ListView.builder(
