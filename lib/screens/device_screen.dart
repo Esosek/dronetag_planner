@@ -37,6 +37,7 @@ class DeviceScreen extends ConsumerWidget {
     final devices = ref.watch(devicesProvider);
 
     // Return user to login screen if he deletes all devices
+    // Just a fallback now, should not happen
     if (devices.isEmpty) {
       Navigator.of(context).popUntil((route) => route.isFirst);
     }

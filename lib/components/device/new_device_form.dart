@@ -46,6 +46,9 @@ class _NewDeviceFormState extends ConsumerState<NewDeviceForm> {
     );
 
     // Submit successful
+    // Pop modal
+    Navigator.of(context).pop();
+    // Resolve callback
     widget.onDeviceCreated();
   }
 
