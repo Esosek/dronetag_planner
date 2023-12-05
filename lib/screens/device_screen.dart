@@ -10,12 +10,16 @@ import 'package:dronetag_planner/components/device/new_device_form.dart';
 class DeviceScreen extends ConsumerWidget {
   const DeviceScreen({super.key});
 
-  void _openAddDeviceModal(BuildContext context) async {
+  void _openAddDeviceModal(BuildContext context, bool isLandscape) async {
     await showModalBottomSheet(
+      isScrollControlled: isLandscape ? true : false,
       context: context,
-      builder: (context) => Padding(
+      builder: (context) => Container(
+        height: isLandscape ? MediaQuery.of(context).size.height * 0.8 : null,
         padding: const EdgeInsets.all(12),
         child: Column(
+          mainAxisAlignment:
+              isLandscape ? MainAxisAlignment.center : MainAxisAlignment.start,
           children: [
             NewDeviceForm(
               showLabel: true,
@@ -34,6 +38,8 @@ class DeviceScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     final devices = ref.watch(devicesProvider);
 
     // Return user to login screen if he deletes all devices
@@ -46,7 +52,7 @@ class DeviceScreen extends ConsumerWidget {
       screenTitle: 'Choose device',
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => _openAddDeviceModal(context),
+        onPressed: () => _openAddDeviceModal(context, isLandscape),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ListView(
