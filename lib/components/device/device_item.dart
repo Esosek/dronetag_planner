@@ -31,11 +31,15 @@ class DeviceItem extends ConsumerWidget {
               Navigator.of(context).pop();
             },
           ),
-          Text(
-            device.label != null
-                ? '${device.label} (${device.uasId})'
-                : device.uasId,
-            style: Theme.of(context).textTheme.labelLarge,
+          Expanded(
+            child: Text(
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              device.label != null
+                  ? '${device.label} (${device.uasId})'
+                  : device.uasId,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
           ),
         ],
       ),
