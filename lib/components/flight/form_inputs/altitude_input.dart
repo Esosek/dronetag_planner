@@ -62,7 +62,7 @@ class AltitudeInput extends StatelessWidget {
             child: Text(maxAltitudeValue.toString()),
           ),
           const SizedBox(width: 4),
-          const Text('meters'),
+          const Text('m'),
         ],
       ),
     );
