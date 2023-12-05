@@ -21,7 +21,7 @@ class ActiveDeviceIndicator extends ConsumerWidget {
           CustomElevatedButton(
             foregroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
             backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
-            fixWidth: 160,
+            fixWidth: 190,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => const DeviceScreen(),
