@@ -6,6 +6,7 @@ import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
 class CustomNumberPicker extends StatefulWidget {
   const CustomNumberPicker({
     super.key,
+    required this.label,
     required this.minValue,
     required this.maxValue,
     required this.step,
@@ -14,6 +15,7 @@ class CustomNumberPicker extends StatefulWidget {
     this.units,
   });
 
+  final String label;
   final int minValue;
   final int maxValue;
   final int step;
@@ -30,6 +32,8 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
 
   @override
   Widget build(BuildContext context) {
+    final isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     _value = widget.initialValue;
     return StatefulBuilder(
       builder: (context, setModalState) => Padding(
@@ -38,7 +42,7 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Choose radius',
+              widget.label,
               style: Theme.of(context).textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -51,6 +55,7 @@ class _CustomNumberPickerState extends State<CustomNumberPicker> {
                 Expanded(
                   flex: 1,
                   child: NumberPicker(
+                    axis: isLandscape ? Axis.horizontal : Axis.vertical,
                     minValue: widget.minValue,
                     maxValue: widget.maxValue,
                     step: widget.step,

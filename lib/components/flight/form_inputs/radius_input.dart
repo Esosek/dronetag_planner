@@ -30,9 +30,11 @@ class RadiusInput extends StatelessWidget {
                 enableDrag: false,
                 context: context,
                 builder: (context) => CustomNumberPicker(
+                  label: 'Choose radius',
                   minValue: 10,
                   maxValue: 5000,
                   step: 10,
+                  units: 'meters',
                   initialValue: value,
                   onSaved: onSelect,
                 ),

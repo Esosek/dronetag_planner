@@ -29,13 +29,15 @@ class AltitudeInput extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           OutlinedButton(
-            onPressed: () => showBottomSheet(
+            onPressed: () => showModalBottomSheet(
               context: context,
               enableDrag: false,
               builder: (context) => CustomNumberPicker(
+                label: 'Choose altitude',
                 minValue: 0,
                 maxValue: 2950,
                 step: 10,
+                units: 'meters',
                 initialValue: minAltitudeValue,
                 onSaved: setMinAltitude,
               ),
@@ -44,13 +46,15 @@ class AltitudeInput extends StatelessWidget {
           ),
           const Text(' - '),
           OutlinedButton(
-            onPressed: () => showBottomSheet(
+            onPressed: () => showModalBottomSheet(
               context: context,
               enableDrag: false,
               builder: (context) => CustomNumberPicker(
+                label: 'Choose altitude',
                 minValue: 0,
                 maxValue: 3000,
                 step: 10,
+                units: 'meters',
                 initialValue: maxAltitudeValue,
                 onSaved: setMaxAltitude,
               ),
