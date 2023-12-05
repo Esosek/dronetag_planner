@@ -5,7 +5,7 @@ Simple flight planner for drone devices.
 - **Planning:** 1h 15m
 - **UI:** 8h 42m
 - **Code:** 8h 05m
-- **Final testing:** 0h 48min
+- **Final testing:** 1h 0min
 ## Not implemented ideas
 - Filters in FlightScreen
 	- Devices
