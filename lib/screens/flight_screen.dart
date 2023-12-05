@@ -1,4 +1,3 @@
-import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,6 +5,7 @@ import 'package:dronetag_planner/components/screen_wrapper.dart';
 import 'package:dronetag_planner/providers/flights_provider.dart';
 import 'package:dronetag_planner/components/flight/flight_item.dart';
 import 'package:dronetag_planner/screens/planner_screen.dart';
+import 'package:dronetag_planner/components/ui/custom_elevated_button.dart';
 
 class FlightScreen extends ConsumerWidget {
   const FlightScreen({super.key});
@@ -13,6 +13,12 @@ class FlightScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final flights = ref.watch(flightsProvider);
+    final scheduledFlights = flights.where((flight) {
+      if (flight.dateEnd.isBefore(DateTime.now())) {
+        return false;
+      }
+      return true;
+    }).toList();
 
     final emptyFlightsContent = Center(
       child: Column(
@@ -48,8 +54,9 @@ class FlightScreen extends ConsumerWidget {
       body: flights.isEmpty
           ? emptyFlightsContent
           : ListView.builder(
-              itemCount: flights.length,
-              itemBuilder: (context, index) => FlightItem(flights[index]),
+              itemCount: scheduledFlights.length,
+              itemBuilder: (context, index) =>
+                  FlightItem(scheduledFlights[index]),
             ),
     );
   }

@@ -86,8 +86,8 @@ class _FlightFormState extends ConsumerState<FlightForm> {
           longitude: double.parse(_originLongiude),
           radius: _radius),
       altitudeRange: [_minAltitude, _maxAltitude],
-      dateStart: dateStart.toString(),
-      dateEnd: _dateEnd.toString(),
+      dateStart: dateStart,
+      dateEnd: _dateEnd,
     );
 
     final error = await ref.read(flightsProvider.notifier).addFlight(newFlight);

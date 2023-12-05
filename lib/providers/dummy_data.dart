@@ -2,27 +2,30 @@ import 'package:dronetag_planner/models/flight.dart';
 import 'package:dronetag_planner/models/flight_location.dart';
 import 'package:dronetag_planner/models/device.dart';
 
-const _dummyFlights = [
+final _dummyFlights = [
   Flight(
-    device: Device(uasId: '00003123', label: 'Nebuchadnezzar'),
-    location: FlightLocation(latitude: 49.190, longitude: 16.550, radius: 20),
+    device: const Device(uasId: '00003123', label: 'Nebuchadnezzar'),
+    location:
+        const FlightLocation(latitude: 49.190, longitude: 16.550, radius: 20),
     altitudeRange: [0, 15],
-    dateStart: '2023-11-28T12:13:14Z',
-    dateEnd: '2023-11-28T12:33:14Z',
+    dateStart: DateTime(2023, 11, 28, 12, 13, 14),
+    dateEnd: DateTime(2023, 11, 28, 12, 33, 14),
   ),
   Flight(
-    device: Device(uasId: '00003123', label: 'Nebuchadnezzar'),
-    location: FlightLocation(latitude: 49.050, longitude: 16.050, radius: 200),
+    device: const Device(uasId: '00003123', label: 'Nebuchadnezzar'),
+    location:
+        const FlightLocation(latitude: 49.050, longitude: 16.050, radius: 200),
     altitudeRange: [0, 25],
-    dateStart: '2023-11-27T12:13:14Z',
-    dateEnd: '2023-11-27T12:33:14Z',
+    dateStart: DateTime(2023, 11, 27, 12, 13, 14),
+    dateEnd: DateTime(2023, 11, 27, 12, 33, 14),
   ),
   Flight(
-    device: Device(uasId: '0000A1234567891'),
-    location: FlightLocation(latitude: 49.190, longitude: 16.550, radius: 20),
+    device: const Device(uasId: '0000A1234567891'),
+    location:
+        const FlightLocation(latitude: 49.190, longitude: 16.550, radius: 20),
     altitudeRange: [0, 15],
-    dateStart: '2023-11-28T12:13:14Z',
-    dateEnd: '2023-11-28T12:33:14Z',
+    dateStart: DateTime(2023, 11, 28, 12, 13, 14),
+    dateEnd: DateTime(2023, 11, 28, 12, 33, 14),
   ),
 ];
 

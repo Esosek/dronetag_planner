@@ -38,8 +38,8 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
         'min': flight.altitudeRange[0],
         'max': flight.altitudeRange[1],
       },
-      'date_start': flight.dateStart,
-      'date_end': flight.dateEnd,
+      'date_start': flight.dateStart.toString(),
+      'date_end': flight.dateEnd.toString(),
     };
     try {
       final url = Uri.parse('http://10.0.2.2:3013/plan');

@@ -13,8 +13,8 @@ class Flight {
   final Device device;
   final FlightLocation location;
   final List<int> altitudeRange;
-  final String dateStart;
-  final String dateEnd;
+  final DateTime dateStart;
+  final DateTime dateEnd;
 
   String get formattedDate {
     String formattedStart = formatDateTime(dateStart);
@@ -22,8 +22,7 @@ class Flight {
     return '$formattedStart - $formattedEnd';
   }
 
-  String formatDateTime(String dateTimeString, {bool includeDate = true}) {
-    DateTime dateTime = DateTime.parse(dateTimeString);
+  String formatDateTime(DateTime dateTime, {bool includeDate = true}) {
     String formattedTime =
         '${dateTime.hour.toString().padLeft(2, '0')}:${dateTime.minute.toString().padLeft(2, '0')}';
 
