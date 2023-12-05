@@ -20,7 +20,7 @@ class CustomTextField extends StatelessWidget {
       child: TextFormField(
         autocorrect: false,
         enableSuggestions: false,
-        keyboardType: TextInputType.number,
+        keyboardType: const TextInputType.numberWithOptions(decimal: true),
         textAlign: TextAlign.center,
         maxLength: maxLength,
         style: TextStyle(

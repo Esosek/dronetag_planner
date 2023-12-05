@@ -14,8 +14,8 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
   final _serverUrl =
       Platform.isAndroid ? 'http://10.0.2.2:3013' : 'http://localhost:3013';
 
-  // returns null if successfull
-  // returns error message otherwise
+  // Returns null if successful
+  // Returns error message if failed
   Future<String?> addFlight(Flight flight) async {
     final result = await _postFlight(flight);
     if (result != null) {
@@ -30,7 +30,6 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
     return null;
   }
 
-  // returns message when failed and null when successful
   Future<String?> _postFlight(Flight flight) async {
     final requestData = {
       'uas_id': flight.device.uasId,
@@ -54,7 +53,7 @@ class FlightsProvider extends StateNotifier<List<Flight>> {
         body: jsonEncode(requestData),
       );
 
-      // fetches error message when request failed
+      // Fetches error message when request failed
       if (response.statusCode != 200) {
         final responseBody = jsonDecode(response.body);
         _log.trace(
